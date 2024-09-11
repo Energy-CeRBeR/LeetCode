@@ -1,30 +1,42 @@
-# Definition for singly-linked list.
-# class ListNode(object):
-#     def __init__(self, val=0, next=None):
-#         self.val = val
-#         self.next = next
-class Solution(object):
-    def oddEvenList(self, head):
-        """
-        :type head: ListNode
-        :rtype: ListNode
-        """
-        if head == None or head.next == None:
-            return head
-        odd = ListNode(0)
-        odd_ptr = odd
-        even = ListNode(0)
-        even_ptr = even
-        idx = 1
-        while head != None:
-            if idx % 2 == 0:
-                even_ptr.next = head
-                even_ptr = even_ptr.next
+from typing import Optional
+
+
+class ListNode:
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+
+
+class Solution:
+    def oddEvenList(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        odd_head = None
+        even_head = None
+        cur_odd_obj = None
+        cur_even_obj = None
+        cur_obj = head
+        cur_ind = 1
+        while cur_obj is not None:
+            next_obj = cur_obj.next
+            cur_obj.next = None
+            if cur_ind % 2 != 0:
+                if odd_head is not None:
+                    cur_odd_obj.next = cur_obj
+                    cur_odd_obj = cur_obj
+                else:
+                    odd_head = cur_obj
+                    cur_odd_obj = odd_head
             else:
-                odd_ptr.next = head
-                odd_ptr = odd_ptr.next
-            head = head.next
-            idx += 1
-        even_ptr.next = None
-        odd_ptr.next = even.next
-        return odd.next
+                if even_head is not None:
+                    cur_even_obj.next = cur_obj
+                    cur_even_obj = cur_obj
+                else:
+                    even_head = cur_obj
+                    cur_even_obj = cur_obj
+
+            cur_obj = next_obj
+            cur_ind += 1
+
+        if cur_odd_obj is not None:
+            cur_odd_obj.next = even_head
+
+        return odd_head
