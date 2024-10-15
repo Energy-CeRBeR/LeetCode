@@ -6,22 +6,39 @@ class Solution:
         m = len(matrix)
         n = len(matrix[0])
 
-        # if m == 1 or n == 1:
-        #     return matrix
+        result = list()
+        i = left = 0
+        j = -1
+        up = 1
+        right = n
+        down = m
+        while len(result) < m * n:
+            j += 1
+            while len(result) < m * n and j < right:
+                result.append(matrix[i][j])
+                j += 1
+            j -= 1
+            right -= 1
 
-        count = 1
-        i = 0 if m > 1 else 1
-        j = 1 if m > 1 else 0
-        height_step = line_step = 1
-        result = matrix[0][0]
+            i += 1
+            while len(result) < m * n and i < down:
+                result.append(matrix[i][j])
+                i += 1
+            i -= 1
+            down -= 1
 
-        flag = m > 1
+            j -= 1
+            while len(result) < m * n and j >= left:
+                result.append(matrix[i][j])
+                j -= 1
+            j += 1
+            left += 1
 
-        while count < m * n:
-            if flag:
-                j += line_step
-                if j == 0 or j == n - 1:
-                    flag = False
-                    line_step = - line_step
-            else:
-                i += height_flag
+            i -= 1
+            while len(result) < m * n and i >= up:
+                result.append(matrix[i][j])
+                i -= 1
+            i += 1
+            up += 1
+
+        return result
